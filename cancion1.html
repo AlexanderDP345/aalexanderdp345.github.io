@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola, Nat. Apunta los numeros :3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Special+Elite&display=swap');
+
+        body {
+            font-family: 'Special Elite', cursive;
+            background-color: #121212;
+            color: #f0f0f0;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+        h1 {
+            font-family: 'Permanent Marker', cursive;
+            color: #ff69b4;
+            text-align: center;
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px #000000, -2px -2px 4px #ff00ff;
+            animation: neonFlicker 1.5s infinite alternate, bounce 2s ease-in-out infinite;
+            transform: rotate(-2deg);
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #d0d0d0;
+            animation: slideIn 1s ease-in-out;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+            border: 5px solid #ff69b4;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            background-color: #1e1e1e;
+            margin-bottom: 60px;
+            transition: all 0.5s ease;
+            animation: pulse 2s infinite;
+        }
+        .video-container:hover {
+            border-color: #facccc;
+            box-shadow: 0 0 25px rgb(255, 77, 240);
+            transform: scale(1.05);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: all 0.5s ease;
+            text-align: center;
+        }
+        .button-container.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.1);
+        }
+        .button-container a {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff69b4, #d30baf);
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .button-container a:hover {
+            background: linear-gradient(135deg, #d30baf, #ff69b4);
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.9);
+            transform: translateY(-5px) scale(1.05);
+        }
+        .button-container a::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        .button-container a:hover::before {
+            opacity: 1;
+            animation: ripple 0.8s linear;
+        }
+        .hearts {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .hearts::before {
+            content: "♥";
+            font-size: 2em;
+            color: #ff69b4;
+            position: absolute;
+            bottom: 0;
+            animation: hearts 5s infinite;
+        }
+        .background-effect {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 
+                    -0.2rem -0.2rem 1rem #fff,
+                    0.2rem 0.2rem 1rem #fff,
+                    0 0 2rem #ff69b4,
+                    0 0 4rem #ff69b4,
+                    0 0 6rem #ff69b4,
+                    0 0 8rem #ff69b4,
+                    0 0 10rem #ff69b4;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        @keyframes hearts {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
+        }
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+        .glitch {
+            position: relative;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            4.16666667% { clip: rect(91px, 9999px, 43px, 0); }
+            8.33333333% { clip: rect(27px, 9999px, 37px, 0); }
+            12.5% { clip: rect(64px, 9999px, 93px, 0); }
+            16.66666667% { clip: rect(58px, 9999px, 68px, 0); }
+            20.83333333% { clip: rect(61px, 9999px, 98px, 0); }
+            25% { clip: rect(27px, 9999px, 33px, 0); }
+            29.16666667% { clip: rect(40px, 9999px, 36px, 0); }
+            33.33333333% { clip: rect(89px, 9999px, 7px, 0); }
+            37.5% { clip: rect(48px, 9999px, 43px, 0); }
+            41.66666667% { clip: rect(37px, 9999px, 25px, 0); }
+            45.83333333% { clip: rect(43px, 9999px, 84px, 0); }
+            50% { clip: rect(45px, 9999px, 70px, 0); }
+            54.16666667% { clip: rect(66px, 9999px, 23px, 0); }
+            58.33333333% { clip: rect(44px, 9999px, 76px, 0); }
+            62.5% { clip: rect(3px, 9999px, 66px, 0); }
+            66.66666667% { clip: rect(14px, 9999px, 18px, 0); }
+            70.83333333% { clip: rect(28px, 9999px, 35px, 0); }
+            75% { clip: rect(73px, 9999px, 95px, 0); }
+            79.16666667% { clip: rect(47px, 9999px, 88px, 0); }
+            83.33333333% { clip: rect(25px, 9999px, 23px, 0); }
+            87.5% { clip: rect(45px, 9999px, 56px, 0); }
+            91.66666667% { clip: rect(57px, 9999px, 81px, 0); }
+            95.83333333% { clip: rect(95px, 9999px, 15px, 0); }
+            100% { clip: rect(11px, 9999px, 97px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 45px, 0); }
+            4.16666667% { clip: rect(7px, 9999px, 75px, 0); }
+            8.33333333% { clip: rect(67px, 9999px, 45px, 0); }
+            12.5% { clip: rect(87px, 9999px, 99px, 0); }
+            16.66666667% { clip: rect(66px, 9999px, 85px, 0); }
+            20.83333333% { clip: rect(73px, 9999px, 10px, 0); }
+            25% { clip: rect(57px, 9999px, 89px, 0); }
+            29.16666667% { clip: rect(20px, 9999px, 4px, 0); }
+            33.33333333% { clip: rect(4px, 9999px, 16px, 0); }
+            37.5% { clip: rect(2px, 9999px, 87px, 0); }
+            41.66666667% { clip: rect(52px, 9999px, 52px, 0); }
+            45.83333333% { clip: rect(12px, 9999px, 86px, 0); }
+            50% { clip: rect(70px, 9999px, 70px, 0); }
+            54.16666667% { clip: rect(20px, 9999px, 54px, 0); }
+            58.33333333% { clip: rect(15px, 9999px, 72px, 0); }
+            62.5% { clip: rect(60px, 9999px, 55px, 0); }
+            66.66666667% { clip: rect(58px, 9999px, 85px, 0); }
+            70.83333333% { clip: rect(41px, 9999px, 81px, 0); }
+            75% { clip: rect(42px, 9999px, 68px, 0); }
+            79.16666667% { clip: rect(71px, 9999px, 21px, 0); }
+            83.33333333% { clip: rect(89px, 9999px, 7px, 0); }
+            87.5% { clip: rect(36px, 9999px, 35px, 0); }
+            91.66666667% { clip: rect(56px, 9999px, 90px, 0); }
+            95.83333333% { clip: rect(39px, 9999px, 42px, 0); }
+            100% { clip: rect(54px, 9999px, 34px, 0); }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <h1 class="glitch" data-text="My Kind of Woman">My Kind of Woman</h1>
+        <p></p>
+        <div class="video-container">        
+            <iframe src="my kind of woman ;; mac demarco  sub español.mp4" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="button-container">
+            <a href="index.html">Me void O-O</a>
+        </div>
+        <div class="hearts"></div>
+        <div class="background-effect"></div>
+    </div>
+    <script>
+        document.querySelector('.button-container').addEventListener('mouseover', function() {
+            document.querySelector('.button-container').classList.add('show');
+        });
+        document.querySelector('.button-container').addEventListener('mouseout', function() {
+            document.querySelector('.button-container').classList.remove('show');
+        });
+
+        function createBackgroundEffect() {
+            const container = document.querySelector('.container');
+            const videoContainer = document.querySelector('.video-container');
+            const containerRect = container.getBoundingClientRect();
+            const videoRect = videoContainer.getBoundingClientRect();
+            const numEffects = 20; 
+
+            for (let i = 0; i < numEffects; i++) {
+                let effect = document.createElement('div');
+                effect.classList.add('background-effect');
+                effect.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                effect.style.width = `${Math.random() * 20 + 10}px`;
+                effect.style.height = effect.style.width;
+                effect.style.top = `${Math.random() * (containerRect.height - 20)}px`;
+                effect.style.left = `${Math.random() * (containerRect.width - 20)}px`;
+                
+                container.appendChild(effect);
+
+                if (
+                    effect.getBoundingClientRect().left < videoRect.right &&
+                    effect.getBoundingClientRect().right > videoRect.left &&
+                    effect.getBoundingClientRect().top < videoRect.bottom &&
+                    effect.getBoundingClientRect().bottom > videoRect.top
+                ) {
+                    effect.remove();
+                } else {
+                    effect.style.opacity = '1';
+                    effect.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+                    
+                    setTimeout(() => {
+                        effect.style.opacity = '0';
+                        effect.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+                        setTimeout(() => effect.remove(), 500);
+                    }, Math.random() * 3000);
+                }
+            }
+        }
+
+        setInterval(createBackgroundEffect, 5000);
+
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#ff69b4" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#ff69b4", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+            },
+            retina_detect: true
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</body>
+</html>
